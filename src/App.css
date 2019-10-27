@@ -25,8 +25,9 @@
   margin: 1rem auto;
 }
 
-.form-control {
-  margin-bottom: 40px;
+.form-control,
+.input-group {
+  margin-bottom: 20px;
 }
 
 .btn-secondary {
@@ -45,5 +46,14 @@
 } */
 
 p span {
-  margin: 0 20%;
+  margin: 0 10%;
+}
+
+.error {
+  border: 2px solid red;
+}
+.form-error-message {
+  color: red;
+  font-size: 12px;
+  width: 100%;
 }
