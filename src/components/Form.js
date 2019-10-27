@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import FormControl from "./FormControl";
 import Select from "./Select";
 import Results from "./Results";
+import StyleContextProvider, { StyleContext } from "../context/StyleContext";
 
 const Form = props => {
   const [totalBill, setTotalBill] = useState("");
@@ -16,6 +17,7 @@ const Form = props => {
   const [partyOptionVal, setPartyOptionVal] = useState("");
   const [partyError, setPartyError] = useState("");
 
+  // SETS ARRAY OF OPTIONS SELECTING NUMBER OF PARTY IN SPLIT CHECK
   const makeArrayOfNums = num => {
     let arr = ["Select Number of Party"];
     for (let i = 1; i <= num; i++) {
@@ -31,10 +33,15 @@ const Form = props => {
     setPartyError("");
   };
 
-  const handleInput = (setVal, targetVal) => {
+  // TO SET STATE VALUES
+  const handleInput = (setVal, targetVal, contextFlag) => {
     setVal(targetVal);
+    if (contextFlag) {
+      props.setBackgroundColor(targetVal);
+    }
   };
 
+  // TO HANDLE NON-NUMBER INPUTS
   const handleNaNs = val => {
     if (isNaN(val)) {
       val = 0.0;
@@ -44,13 +51,15 @@ const Form = props => {
 
   const isValid = () => {
     resetErrors();
+    // TAKE OUT ALL COMMAS
     let totalCopy = totalBill.replace(/,/g, "");
     totalCopy = parseFloat(totalCopy);
     totalCopy = handleNaNs(totalCopy);
     if (
-      totalCopy > 0 &&
+      totalCopy > 0 && // TIP PERCENTAGE HAS BEEN SELECTED
       (tipPercent.length && tipPercent.indexOf("Select") === -1)
     ) {
+      // IF SPLITTING BILL
       if (partySize > 1 && splitIsChecked) {
         if (!(parseInt(partyOptionVal) > 0)) {
           setPartyError("Please select number of party");
@@ -135,7 +144,6 @@ const Form = props => {
         onChange={e => handleInput(setTotalBill, e.target.value)}
         placeholder="Total Bill"
         value={totalBill}
-        errorMessage={"Please Enter Valid Total Bill"}
         error={totalError}
       >
         <div class="input-group-prepend">
@@ -144,7 +152,9 @@ const Form = props => {
       </FormControl>
       <Select
         data={optionData}
-        onChange={e => handleInput(setTipPercent, e.target.value)}
+        onChange={e => {
+          handleInput(setTipPercent, e.target.value, true);
+        }}
         value={tipPercent}
         error={tipError}
       ></Select>

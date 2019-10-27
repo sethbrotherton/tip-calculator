@@ -57,3 +57,16 @@ p span {
   font-size: 12px;
   width: 100%;
 }
+
+.green {
+  background-color: #59d659;
+  height: 100vh;
+}
+.yellow {
+  background-color: rgb(210, 230, 36);
+  height: 100vh;
+}
+.red {
+  background-color: rgb(231, 67, 76);
+  height: 100vh;
+}
